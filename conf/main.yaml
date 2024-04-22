@@ -1,0 +1,35 @@
+raw_data_path: data/raw
+processed_data_path: data/processed
+final_data_path: data/final
+
+dossier_id: "nl.gm0867.2i.2023.11"
+
+pipeline:
+  - _target_: src.preprocessing.extract_dates_regex.ExtractDatesRegex
+    min_date: "1950-01-01"
+    max_date: "2024-12-31"
+  - _target_: src.preprocessing.extract_important_sentences.ExtractImportantSentences
+  - _target_: src.preprocessing.compute_topical_distributions.TopicalDistribution
+    pretrained_model_name_or_path: 'tm/lda_model_v3'
+    dictionary_name_or_path: 'tm/lda_model_v3.id2word'
+  - _target_: src.preprocessing.random_walk_embedding.RandomWalkEmbedding
+    threshold: 15
+    num_walks: 50
+    walk_length: 120
+    dimension: 120
+  - _target_: src.preprocessing.impute_dates.ImputeDates
+  - _target_: src.preprocessing.cluster_documents.ClusterDocuments
+    periods: 4
+  - _target_: src.preprocessing.linear_programming.LinearProgramming
+    min_cover: 0.2
+    K: 10
+    threshold: 0.01
+  - _target_: src.preprocessing.create_events.CreateEvents
+    period: 4
+  - _target_: src.preprocessing.cluster_explainer.ClusterExplainer
+    threshold: 10
+  - _target_: src.preprocessing.find_storylines.FindStorylines
+  - _target_: src.preprocessing.filter_redundant_edges.FilterRedundantEdges
+  - _target_: src.preprocessing.compute_layout.ComputeLayout
+    spacing_within_story: "uniform"
+    transpose: False

@@ -1,0 +1,44 @@
+stages:
+  - lint
+  - docs
+  - deploy
+
+workflow:
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+    - if: $CI_COMMIT_BRANCH == "main" && $CI_PIPELINE_SOURCE == "push"
+
+pre-commit:
+  stage: lint
+  image: python:3.12.3
+  script:
+    - pip install pre-commit
+    - pre-commit run --all-files
+  allow_failure: true
+
+sphinx:
+  stage: docs
+  needs: [ ]
+  image: python:3.12.3
+  script:
+    - pip install poetry
+    - poetry install --with docs --no-root
+    - source $(poetry env info --path)/bin/activate
+    - cd docs
+    - make html
+  artifacts:
+    paths:
+      - docs/_build/html
+  allow_failure: true
+
+pages:
+  stage: deploy
+  needs: [ sphinx ]
+  script:
+    - mv docs/_build/html public
+  artifacts:
+    paths:
+      - public
+  allow_failure: true
+  only:
+    - main

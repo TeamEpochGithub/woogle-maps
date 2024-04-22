@@ -1,0 +1,3 @@
+source_path: ./data/WoogleDumps
+target_path: ./data/extracted
+extension: .gz

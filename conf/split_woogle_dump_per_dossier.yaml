@@ -1,0 +1,3 @@
+source_path: ./data/extracted
+target_path: ./data/raw
+min_docs_per_dossier: 20

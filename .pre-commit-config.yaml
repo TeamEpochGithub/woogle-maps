@@ -1,0 +1,117 @@
+exclude: ^(external/|venv/|.venv/|notebooks/|scripts/|test/|tests/)
+repos:
+  - repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: v4.6.0
+    hooks:
+      - id: check-added-large-files
+      - id: check-builtin-literals
+      - id: check-executables-have-shebangs
+      - id: check-json
+      - id: pretty-format-json
+        args: [ --autofix, --no-sort-keys ]
+      - id: check-merge-conflict
+      - id: check-shebang-scripts-are-executable
+      - id: check-symlinks
+      - id: check-toml
+      - id: check-xml
+      - id: check-yaml
+      - id: detect-private-key
+      - id: destroyed-symlinks
+      - id: mixed-line-ending
+      - id: end-of-file-fixer
+      - id: fix-byte-order-marker
+      - id: name-tests-test
+        args: [ --pytest-test-first ]
+      - id: trailing-whitespace
+  - repo: https://github.com/abravalheri/validate-pyproject
+    rev: v0.16
+    hooks:
+      - id: validate-pyproject
+  - repo: https://github.com/pre-commit/pygrep-hooks
+    rev: v1.10.0
+    hooks:
+      - id: python-check-blanket-noqa
+      - id: python-check-blanket-type-ignore
+      - id: python-check-mock-methods
+      - id: python-no-log-warn
+      - id: python-use-type-annotations
+  - repo: https://github.com/jackdewinter/pymarkdown
+    rev: v0.9.18
+    hooks:
+      - id: pymarkdown
+        args:
+          - -d
+          - MD013, MD041  # Line length, First line in file should be a top level heading
+          - scan
+  - repo: https://github.com/sphinx-contrib/sphinx-lint
+    rev: v0.9.1
+    hooks:
+      - id: sphinx-lint
+        args: [ --enable=default-role ]
+  - repo: https://github.com/python-poetry/poetry
+    rev: 1.8.0
+    hooks:
+      - id: poetry-check
+      - id: poetry-lock
+      - id: poetry-export
+        args: [ --without-hashes, --with=test, --with=docs, --format, requirements.txt, --output, requirements.txt ]
+      - id: poetry-install
+  - repo: https://github.com/astral-sh/ruff-pre-commit
+    rev: v0.3.7
+    hooks:
+      - id: ruff-format
+      - id: ruff
+# Pydoclint is useful, but gives too many false positives
+#  - repo: https://github.com/jsh9/pydoclint
+#    rev: 0.4.1
+#    hooks:
+#      - id: pydoclint
+#        args: [ --quiet ]
+  - repo: https://github.com/pre-commit/mirrors-mypy
+    rev: v1.9.0
+    hooks:
+      - id: mypy
+        additional_dependencies:
+          - numpy
+          - scikit-learn
+          - scikit-image
+          - scipy
+          - tqdm
+          - typing
+          - typing_extensions
+          - polars
+          - seaborn
+          - matplotlib
+          - plotly
+          - torch
+          - dash
+          - dash-bootstrap-components
+          - dash-bootstrap-templates
+          - rasterio
+          - distributed
+          - fsspec
+          - typing_extensions
+          - annotated-types
+          - pandas-stubs
+          - traitlets
+          - coloredlogs
+          - yake
+          - hydra-core
+          - dash_extensions
+          - epochalyst
+          - transformers
+          - gensim
+          - dash-mantine-components
+          - dash-iconify
+          - dash_cytoscape
+          - rustworkx
+          - pypdf
+          - pdfplumber
+          - reportlab
+          - lexrank
+          - nltk
+          - hdbscan
+          - umap-learn
+          - pulp
+          - randomname
+        args: [ --disallow-any-generics, --disallow-untyped-defs, --disable-error-code=import-untyped ]
