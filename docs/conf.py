@@ -12,7 +12,7 @@ from typing import Any, Final
 from pygit2 import Repository  # type: ignore[import-untyped, import-not-found]
 
 # TODO(Jeffrey): Replace this with GitHub URL later
-REPO_URL: Final[str] = f"https://gitlab.ewi.tudelft.nl/dreamteam-epoch/epoch-iv/q3-national-archive/-/blob/{Repository('.').head.shorthand}/"
+REPO_URL: Final[str] = f"https://github.com/Jeffrey-Lim/woogle-maps/-/blob/{Repository('.').head.shorthand}/"
 
 sys.path.insert(0, Path("../..").resolve().as_posix())
 
@@ -95,6 +95,7 @@ exclude_patterns: Final[list[str]] = ["_build", "Thumbs.db", ".DS_Store"]
 
 html_theme: Final[str] = "sphinxawesome_theme"
 html_theme_options: Final[dict[str, str]] = {"logo_light": "../assets/Woogle_Maps_Icon_Dark.svg", "logo_dark": "../assets/Woogle_Maps_Icon_Light.svg"}
+html_css_files: Final[list[str]] = ["./logo.css"]
 html_favicon: Final[str] = "../assets/Woogle_Maps_Icon_Auto.svg"
 html_static_path: Final[list[str]] = ["_static", "../assets"]
 html_use_smartypants: Final[bool] = True
