@@ -1,0 +1,11 @@
+.woogle-maps-logo {
+    content: url('https://raw.githubusercontent.com/Jeffrey-Lim/woogle-maps/main/assets/Woogle_Maps_Logo_Dark.svg');
+    max-width: 100%;
+    height: auto;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+html.dark .woogle-maps-logo {
+    content: url('https://raw.githubusercontent.com/Jeffrey-Lim/woogle-maps/main/assets/Woogle_Maps_Logo_Light.svg');
+}

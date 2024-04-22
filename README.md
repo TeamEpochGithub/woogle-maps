@@ -1,9 +1,12 @@
-![Woogle Maps Logo](./assets/Woogle_Maps_Logo_Auto.svg)
+![Woogle Maps Logo](https://raw.githubusercontent.com/Jeffrey-Lim/woogle-maps/main/assets/Woogle_Maps_Logo_Auto.svg)
 
 [![Epoch](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2FJeffrey-Lim%2Fepoch-dvdscreensaver%2Fmaster%2Fbadge.json)](https://teamepoch.ai/)
 [![Python Version](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 
-Woogle Maps is a tool for structuring documents and visualizing the relationships between them.
+Woogle Maps is  a tool for structuring documents in multiple clear storylines, visualizing the relationships between them. 
+
+This tool was made by Team Epoch IV for the [Rijksoverheid](https://www.rijksoverheid.nl/) and the [National Archive](https://www.nationaalarchief.nl/).
+Read more about this [here](https://teamepoch.ai/competitions).
 
 ## Getting started
 
