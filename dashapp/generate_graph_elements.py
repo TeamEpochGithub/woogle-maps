@@ -100,7 +100,7 @@ class StoryElement(TypedDict):
     selectable: Literal[False]
 
 
-class ClusterNodeElementData(TypedDict):
+class ClusterNodeElementData(TypedDict, total=False):
     """The data for a cluster node element.
 
     :param id: The cluster node ID.
@@ -110,9 +110,10 @@ class ClusterNodeElementData(TypedDict):
     """
 
     id: str
-    parent: str
+    parent: str | None
     label: str
     cluster_members: list[str]
+    summary: list[str]
 
 
 class Point(TypedDict):
@@ -126,7 +127,7 @@ class Point(TypedDict):
     y: float
 
 
-class NodeElement(TypedDict):
+class NodeElement(TypedDict, total=False):
     """A cluster node element for the graph.
 
     :param data: The id, parent, label, and cluster members for the element.
@@ -139,7 +140,7 @@ class NodeElement(TypedDict):
     position: Point
 
 
-class EdgeElementData(TypedDict):
+class EdgeElementData(TypedDict, total=False):
     """The data for an edge element.
 
     :param id: The edge ID.
@@ -156,6 +157,7 @@ class EdgeElementData(TypedDict):
     label: str
     weight: float
     width: float
+    directed: bool
 
 
 class EdgeElement(TypedDict):
@@ -215,18 +217,18 @@ def generate_node_elements(data: pd.DataFrame) -> list[NodeElement]:
                 dates = [date.strftime("%Y-%m-%d") if not pd.isna(date) else "n.d." for date in cluster_data["date"]]  # Ensure dates are strings
 
         if "title" in cluster_data.columns:
-            titles: list[str] = cluster_data["title"].tolist()
+            titles = cluster_data["title"].tolist()
         else:
-            titles: list[str] = ["No Title" for _ in cluster_data.index]
+            titles = ["No Title" for _ in cluster_data.index]
 
         if "abstract" in cluster_data.columns:
-            summary: list[str] = cluster_data.iloc[0]["abstract"].tolist()
+            summary = cluster_data.iloc[0]["abstract"].tolist()
         else:
-            summary: list[str] = ["No Summary" for _ in cluster_data.index]
+            summary = ["No Summary" for _ in cluster_data.index]
 
         cluster_members = [f"{date} - {title}" for date, title in zip(dates, titles, strict=False)]
 
-        node_data = {
+        node_data: NodeElement = {
             "data": {"id": f"{i}_1I", "parent": parent_id, "label": titles[0] if cluster_members else "No title", "cluster_members": cluster_members, "summary": summary},
             "classes": "cluster_data ac",
             "position": {
@@ -257,7 +259,7 @@ def generate_edges(data: pd.DataFrame) -> list[EdgeElement]:
         for j in range(len(adj_list)):
             target_id = f"{adj_list[j]}_1I"
             story_j = data.query(f"clusters == {adj_list[j]}").iloc[0]["storyline"]
-            edge_data = {
+            edge_data: EdgeElement = {
                 "data": {
                     "id": f"{source_id}-{target_id}",
                     "source": source_id,

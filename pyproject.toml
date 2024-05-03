@@ -12,7 +12,6 @@ license = "MIT"
 readme = "README.md"
 homepage = "https://teamepoch.ai/"
 repository = "https://github.com/TeamEpochGithub/woogle-maps/"
-issues = "https://github.com/TeamEpochGithub/woogle-maps/issues"
 documentation = "https://TeamEpochGithub.github.io/woogle-maps/"
 classifiers = [
     "Programming Language :: Python",

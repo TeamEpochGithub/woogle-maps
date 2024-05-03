@@ -82,14 +82,9 @@ repos:
         additional_dependencies:
           - numpy>=1.22.4, < 2
           - scikit-learn
-          - scikit-image
           - scipy
           - tqdm
-          - typing
           - polars>=0.20.22
-          - seaborn
-          - matplotlib
-          - plotly
           - torch>=2.1.0, <2.3.0
           - dash
           - dash-bootstrap-components

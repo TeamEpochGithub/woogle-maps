@@ -2,7 +2,7 @@
 
 from collections.abc import Iterable
 from dataclasses import dataclass, field
-from typing import Any, override
+from typing import Any, cast
 
 import nltk
 import numpy as np
@@ -40,16 +40,15 @@ class TopicalDistribution(TransformationBlock, Logger):
         super().__post_init__()
         self._pretrained_lda = LdaModel.load(self.pretrained_model_name_or_path)
         self._lemmatizer = WordNetLemmatizer()
-        self._dict = Dictionary.load(self.dictionary_name_or_path)
+        self._dict = cast(Dictionary, Dictionary.load(self.dictionary_name_or_path))
 
-    @override
-    def custom_transform(self, data: pd.DataFrame, **kwargs: Any) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
         """Ensure the input Dataframe has the relevant columns.
 
         Then computes the topical distributions for each document.
 
         :param data: The input dataframe.
-        :param kwargs: Additional keyword arguments (UNUSED).
+        :param transform_args: Additional keyword arguments (UNUSED).
         :return: The transformed data.
         """
         if "full_text" not in data.columns or not is_string_dtype(data["full_text"].dtype):

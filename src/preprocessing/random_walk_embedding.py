@@ -1,7 +1,7 @@
 """Extract the embeddings from the topical and date similarities."""
 
 from dataclasses import dataclass, field
-from typing import Any, override
+from typing import Any
 
 import networkx as nx
 import numpy as np
@@ -119,8 +119,7 @@ class RandomWalkEmbedding(TransformationBlock, Logger):
 
         return topical_walk + event_walk
 
-    @override
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
         """Compute embeddings after random walk.
 
         :param data: The input dataframe.

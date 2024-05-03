@@ -1,7 +1,7 @@
 """Cluster the documents based on time and event similarity."""
 
 from dataclasses import dataclass
-from typing import Any, override
+from typing import Any, cast
 
 import numpy as np
 import numpy.typing as npt
@@ -32,7 +32,7 @@ class CreateEvents(TransformationBlock, Logger):
         similarities = cosine_similarity([target], candidates)[0]
 
         # Return the index of the most similar
-        return np.argmax(similarities)
+        return int(np.argmax(similarities))
 
     def modify_adjacency(self, data: pd.DataFrame) -> pd.DataFrame:
         """Transform the adjacency list with the clusters.
@@ -50,8 +50,7 @@ class CreateEvents(TransformationBlock, Logger):
 
         return data.drop("index", axis=1)
 
-    @override
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: DOC103
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103
         """Cluster the documents based on the event and the date similarity.
 
         :param data: The data to transform.
@@ -66,6 +65,7 @@ class CreateEvents(TransformationBlock, Logger):
         data["clusters"] = range(data.shape[0])
 
         for idx, row in data.iterrows():
+            idx = cast(int, idx)
             if row["discarded"]:
                 # Extract the closest not-discarded documents
                 data["distance"] = (data["clusters"] - idx).abs()
@@ -74,20 +74,20 @@ class CreateEvents(TransformationBlock, Logger):
                 # Find the most similar document in the candidates
                 if not candidates.empty:
                     # Extract the embeddings from the candidates
-                    candidate_embeddings = np.vstack(candidates["embed"].to_numpy())
+                    candidate_embeddings = np.vstack(candidates["embed"].to_list())
 
                     # Find the index of the most similar document
                     similar_idx = self.find_most_similar(candidate_embeddings, row["embed"])
 
                     # Extract adjacency list, weights and the cluster index
-                    adj_list = candidates.iloc[similar_idx]["adj_list"]
-                    adj_weight = candidates.iloc[similar_idx]["adj_weights"]
-                    cluster = candidates.iloc[similar_idx]["clusters"]
+                    adj_list: list[int] = candidates.iloc[similar_idx]["adj_list"]
+                    adj_weight: list[float] = candidates.iloc[similar_idx]["adj_weights"]
+                    cluster: int = candidates.iloc[similar_idx]["clusters"]
 
                     # Replace these values of the discarded document
-                    data.at[idx, "adj_list"] = adj_list
-                    data.at[idx, "adj_weights"] = adj_weight
-                    data.at[idx, "clusters"] = cluster
+                    data.at[idx, "adj_list"] = adj_list  # noqa: PD008
+                    data.at[idx, "adj_weights"] = adj_weight  # noqa: PD008
+                    data.at[idx, "clusters"] = cluster  # noqa: PD008
 
         # Cleanup the temporary column distance
         data = data.drop(["distance"], axis=1, errors="ignore")

@@ -57,7 +57,7 @@ def edge_boundary(graph: rx.PyDiGraph, nbunch1: Iterable[int], nbunch2: Iterable
     return [e for e in outgoing_edges if (e[0] in nset1 and e[1] in nset2) or (e[1] in nset1 and e[0] in nset2)]
 
 
-def filter_interstory_connections(graph: rx.PyDiGraph, storylines: list[list[int]]) -> rx.PyDiGraph:  # noqa: C901, PLR0912  # type: ignore[type-arg]
+def filter_interstory_connections(graph: rx.PyDiGraph, storylines: list[list[int]]) -> rx.PyDiGraph:  # type: ignore[type-arg]  # noqa: C901, PLR0912
     """Filter interstory connections from the graph.
 
     This function filters out interstory connections from the graph.
@@ -141,7 +141,6 @@ def normalize_adj_weights(graph: rx.PyDiGraph) -> rx.PyDiGraph:  # type: ignore[
     :param graph: The graph to normalize the weights of.
     :return: The graph with normalized weights.
     """
-    # TODO(Jeffrey): Test this
     for node in graph.nodes():
         total_weight = sum([graph.get_edge_data(node, neighbor)["weight"] for neighbor in graph.neighbors(node)])
         for neighbor in graph.neighbors(node):

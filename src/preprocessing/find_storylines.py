@@ -1,7 +1,7 @@
 """Find the storylines in the data."""
 
 from dataclasses import dataclass
-from typing import Any, override
+from typing import Any
 
 import pandas as pd
 import polars as pl
@@ -20,8 +20,7 @@ class FindStorylines(TransformationBlock, Logger):
     It will return the data with a "storyline" column that contains the storyline index for each row.
     """
 
-    @override
-    def custom_transform(self, data: pd.DataFrame | pl.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
         """Find the storylines in the data.
 
         :param data: The data to find the storylines in.
@@ -34,14 +33,13 @@ class FindStorylines(TransformationBlock, Logger):
 
         data.drop("index", errors="ignore")
 
-        if isinstance(data, pd.DataFrame):
-            data = pl.from_pandas(data)
+        pl_data = pl.from_pandas(data)
 
         full_data = None
-        if "clusters" in data.columns:
-            full_data = data.clone().drop(["adj_list", "adj_weights"])
-            data = (
-                data.group_by("clusters")
+        if "clusters" in pl_data.columns:
+            full_data = pl_data.clone().drop(["adj_list", "adj_weights"])
+            pl_data = (
+                pl_data.group_by("clusters")
                 .agg(
                     [
                         pl.col("adj_list").first().alias("adj_list"),
@@ -51,20 +49,20 @@ class FindStorylines(TransformationBlock, Logger):
                 .sort("clusters")
             )
 
-        self.log_to_terminal(f"Finding storylines in {data.height} nodes...")
+        self.log_to_terminal(f"Finding storylines in {pl_data.height} nodes...")
 
-        graph = build_graph_from_adj_list(data["adj_list"].to_list(), data["adj_weights"].to_list())
+        graph = build_graph_from_adj_list(pl_data["adj_list"].to_list(), pl_data["adj_weights"].to_list())
         storylines: list[list[int]] = find_storylines(graph)
         storyline_index_map = {row: idx for idx, rows in enumerate(storylines) for row in rows}
 
-        data = data.with_row_index(name="idx").with_columns(storyline=pl.col("idx").replace(storyline_index_map)).drop("idx")
+        pl_data = pl_data.with_row_index(name="idx").with_columns(storyline=pl.col("idx").replace(storyline_index_map)).drop("idx")
 
         self.log_to_terminal(f"Found storylines {storylines} in the data.")
 
         if full_data is not None:
-            data = data.join(full_data, on="clusters")
+            pl_data = pl_data.join(full_data, on="clusters")
 
-        return data.to_pandas().drop("index", errors="ignore")
+        return pl_data.to_pandas().drop("index", errors="ignore")
 
 
 def find_storylines(graph: rx.PyDiGraph) -> list[list[int]]:  # type: ignore[type-arg]

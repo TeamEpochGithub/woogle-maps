@@ -1,7 +1,7 @@
 """Compute the membership vectors for each cluster."""
 
 from dataclasses import dataclass
-from typing import Any, override
+from typing import Any
 
 import hdbscan
 import numpy as np
@@ -92,8 +92,7 @@ class ClusterDocuments(TransformationBlock, Logger):
 
         return labels + 1, memberships
 
-    @override
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
         """Cluster the documents based on the event and the date similarity.
 
         :param data: The data to transform.
@@ -111,7 +110,7 @@ class ClusterDocuments(TransformationBlock, Logger):
         try:
             _, memberships = self._compute_memberships(embeddings)
             data["memberships"] = list(memberships)
-        except Exception as e:
+        except Exception as e:  # noqa: BLE001
             self.log_to_warning(f"Unable to compute the memberships of the documents in the dossier: {e}")
 
         return data.drop("index", errors="ignore")

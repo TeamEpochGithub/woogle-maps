@@ -3,7 +3,7 @@
 import datetime
 import re
 from dataclasses import InitVar, dataclass
-from typing import Any, Final, override
+from typing import Any, Final
 from zoneinfo import ZoneInfo
 
 import pandas as pd
@@ -68,8 +68,7 @@ class ExtractDatesRegex(TransformationBlock, Logger):
         self._min_date = pd.to_datetime(min_date) if min_date else pd.to_datetime("1950-01-01", format="%d-%m-%Y")
         self._max_date = pd.to_datetime(max_date) if max_date else pd.to_datetime(datetime.datetime.now(tz=timezone("CET")).date())
 
-    @override
-    def custom_transform(self, data: pd.DataFrame, **kwargs: Any) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **kwargs: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
         """Generate extracted dates from full body text.
 
         :param data: The data to transform.
