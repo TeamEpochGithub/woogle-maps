@@ -1,7 +1,7 @@
 [tool.poetry]
 name = "woogle-maps"
 version = "0.1.0"
-description = ""
+description = "Woogle Maps is a tool for structuring documents in multiple clear storylines, visualizing the relationships between them."
 authors = [
     "Jeffrey Lim <Jeffrey-Lim@outlook.com>",
     "Gregoire Dumont <Dumont.Gregoire.A@gmail.com>",
@@ -10,6 +10,19 @@ authors = [
 ]
 license = "MIT"
 readme = "README.md"
+homepage = "https://teamepoch.ai/"
+repository = "https://github.com/TeamEpochGithub/woogle-maps/"
+issues = "https://github.com/TeamEpochGithub/woogle-maps/issues"
+documentation = "https://TeamEpochGithub.github.io/woogle-maps/"
+classifiers = [
+    "Programming Language :: Python",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3 :: Only",
+    "License :: OSI Approved :: MIT License",
+    "Typing :: Typed",
+    "Operating System :: OS Independent",
+]
 packages = [
     { include = "src" },
     { include = "main.py" },

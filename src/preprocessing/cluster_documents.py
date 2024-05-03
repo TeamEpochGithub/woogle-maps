@@ -17,7 +17,7 @@ from src.logging.logger import Logger
 class ClusterDocuments(TransformationBlock, Logger):
     """Cluster the documents based on the event and the date similarity.
 
-    :param: period: how many time periods to consider.
+    :param: periods: how many time periods to consider.
     """
 
     periods: int = 4
@@ -28,10 +28,10 @@ class ClusterDocuments(TransformationBlock, Logger):
         :param num_docs: the number of documents to be clustered.
         :return: the number of neighbors and the minimum cluster size.
         """
-        # compute the minimum cluster size
+        # Compute the minimum cluster size
         min_cluster = max(5 * round(np.sqrt(num_docs) / 10), 2)
 
-        # compute the number of neighbors and init
+        # Compute the number of neighbors and init
         if num_docs <= 40:
             neighbors = 2
             init = "random"
@@ -50,10 +50,10 @@ class ClusterDocuments(TransformationBlock, Logger):
         :param embeddings: numpy array containing the embeddings.
         :return new_embeddings: numpy array containing the 2-dimensional embeddings.
         """
-        # compute the number of neighbors and init
+        # Compute the number of neighbors and init
         _, neighbors, init = self._compute_variable(embeddings.shape[0])
 
-        # train and perform UMAP on the embeddings
+        # Train and perform UMAP on the embeddings
         encoder = umap.UMAP(n_neighbors=neighbors, min_dist=0.01, init=init)
 
         return encoder.fit_transform(embeddings)
@@ -64,26 +64,26 @@ class ClusterDocuments(TransformationBlock, Logger):
         :param embeddings: numpy array containing the embeddings.
         :return: the cluster labels and the membership vectors.
         """
-        # compute the minimum clusters size for the embeddings
+        # Compute the minimum clusters size for the embeddings
         min_cluster, _, _ = self._compute_variable(embeddings.shape[0])
 
-        # convert the embeddings to two dimensions using UMAP
+        # Convert the embeddings to two dimensions using UMAP
         clusterable = self._compute_embeddings(embeddings)
 
-        # train and compute the clusters based on HDBSCAN
+        # Train and compute the clusters based on HDBSCAN
         model = hdbscan.HDBSCAN(min_samples=2, min_cluster_size=min_cluster, prediction_data=True, cluster_selection_method="leaf")
         labels = model.fit_predict(clusterable)
 
-        # compute and normalize the membership vectors
+        # Compute and normalize the membership vectors
         memberships = hdbscan.prediction.all_points_membership_vectors(model)
 
         if len(memberships.shape) > 1:
-            # remove any low probability
+            # Remove any low probability
             ratio = 1 / memberships.shape[1]
             num_clust = memberships.shape[1]
             memberships[memberships < ratio] = 0
 
-            # if any row is full of zeros replace with uniform distribution
+            # If any row is full of zeros replace with uniform distribution
             memberships[np.all(memberships == 0, axis=1)] = ratio * np.ones(num_clust)
             memberships = memberships / memberships.sum(axis=1)[:, np.newaxis]
 
@@ -104,11 +104,14 @@ class ClusterDocuments(TransformationBlock, Logger):
             self.log_to_warning("The input data does not have an 'embed' column. Unable to cluster documents...")
             return data
 
-        # compute the memberships of the documents in the dossier
+        # Compute the memberships of the documents in the dossier
         embeddings = np.array(data["embed"].tolist())
 
-        # compute the membership vectors of the documents
-        _, memberships = self._compute_memberships(embeddings)
-        data["memberships"] = list(memberships)
+        # Compute the membership vectors of the documents
+        try:
+            _, memberships = self._compute_memberships(embeddings)
+            data["memberships"] = list(memberships)
+        except Exception as e:
+            self.log_to_warning(f"Unable to compute the memberships of the documents in the dossier: {e}")
 
         return data.drop("index", errors="ignore")

@@ -219,7 +219,7 @@ def generate_node_elements(data: pd.DataFrame) -> list[NodeElement]:
         else:
             titles: list[str] = ["No Title" for _ in cluster_data.index]
 
-        if "summary" in cluster_data.columns:
+        if "abstract" in cluster_data.columns:
             summary: list[str] = cluster_data.iloc[0]["abstract"].tolist()
         else:
             summary: list[str] = ["No Summary" for _ in cluster_data.index]
@@ -284,11 +284,9 @@ def generate_graph_elements(data: pd.DataFrame) -> list[StoryElement | NodeEleme
     else:
         storyline_elements = []
 
-    if "clusters" in data.columns:
-        node_elements = generate_node_elements(data)
-    else:
+    if "clusters" not in data.columns:
         data["clusters"] = data.index
-        node_elements = generate_node_elements(data)
+    node_elements = generate_node_elements(data)
 
     if "adj_list" in data.columns and "adj_weights" in data.columns:
         edge_elements = generate_edges(data)
