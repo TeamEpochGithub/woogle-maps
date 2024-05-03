@@ -65,8 +65,7 @@ repos:
     hooks:
       - id: poetry-check
         args: [ --lock ]
-      - id: poetry-lock
-        args: [ --no-update ]
+  #    - id: poetry-lock  # Commented out because it breaks CI. Uncomment this on your local machine.
       - id: poetry-export
         args: [ --without-hashes, --with=test, --with=docs, --format, requirements.txt, --output, requirements.txt ]
       - id: poetry-install

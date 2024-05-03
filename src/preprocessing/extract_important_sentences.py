@@ -12,6 +12,11 @@ from nltk.tokenize import sent_tokenize
 
 from src.logging.logger import Logger
 
+# Download the necessary NLTK resources if not already downloaded
+nltk.download("punkt")
+nltk.download("stopwords")
+nltk.download("wordnet")
+
 
 @dataclass
 class ExtractImportantSentences(TransformationBlock, Logger):
@@ -71,11 +76,6 @@ class ExtractImportantSentences(TransformationBlock, Logger):
         :return: a dataframe with the most important sentences in the summary column.
         """
         try:
-            # Download the necessary NLTK resources if not already downloaded
-            nltk.download("punkt")
-            nltk.download("stopwords")
-            nltk.download("wordnet")
-
             trained_model = LexRank(
                 data["filtered_text"].to_list(),
                 stopwords=set(stopwords.words("dutch")),
