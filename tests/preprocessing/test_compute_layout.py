@@ -1,18 +1,17 @@
 import pandas as pd
-import polars as pl
 
 from src.preprocessing.compute_layout import ComputeLayout
 
 
-def check_storyline_x_alignment(data: pd.DataFrame):
-    """Check if the X coordinates are aligned within the same storyline."""
+def check_storyline_y_alignment(data: pd.DataFrame):
+    """Check if the Y coordinates are aligned within the same storyline."""
     for name, group in data.groupby("storyline"):
-        if group["x"].nunique() != 1:
+        if group["y"].nunique() != 1:
             return False
     return True
 
-def test_compute_layout():
-    data = pl.DataFrame(
+def test__compute_layout():
+    data = pd.DataFrame(
         {
             "adj_list": [[8, 10, 1], [7, 8, 2], [7, 8, 10], [4, 5], [7, 8, 6], [7], [8, 9, 10], [8, 10], [12, 10, 9], [12, 13, 10], [11, 13], [13], [], []],
             "adj_weights": [
@@ -37,7 +36,7 @@ def test_compute_layout():
     block = ComputeLayout()
     res = block.transform(data)
 
-    assert check_storyline_x_alignment(res)
+    assert check_storyline_y_alignment(res)
 
 def test__compute_layout__with_clusters():
     data = pd.DataFrame({
@@ -84,4 +83,4 @@ def test__compute_layout__with_clusters():
     block = ComputeLayout()
     res = block.transform(data)
 
-    assert check_storyline_x_alignment(res)
+    assert check_storyline_y_alignment(res)
