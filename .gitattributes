@@ -37,4 +37,4 @@
 *.parquet   binary
 *.id2word   binary
 *.state     binary
-tm/         filter=lfs diff=lfs merge=lfs binary
+tm/*        filter=lfs diff=lfs merge=lfs binary
