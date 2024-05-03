@@ -159,17 +159,27 @@ def upload_files(contents: list[str], filenames: list[str]) -> tuple[html.Div, N
         data = pd.concat(csv_files, ignore_index=True)
 
     if data.empty:
-        return html.Div(
-            [
-                "No valid documents found in the uploaded files or zip file. Only PDF and CSV document files are accepted.",
-            ],
-        ), None, False, "/"
+        return (
+            html.Div(
+                [
+                    "No valid documents found in the uploaded files or zip file. Only PDF and CSV document files are accepted.",
+                ],
+            ),
+            None,
+            False,
+            "/",
+        )
     if len(data.index) < 5:
-        return html.Div(
-            [
-                "Please upload at least 5 documents.",
-            ],
-        ), None, False, "/"
+        return (
+            html.Div(
+                [
+                    "Please upload at least 5 documents.",
+                ],
+            ),
+            None,
+            False,
+            "/",
+        )
 
     data.to_pickle(RAW_DATA_PATH / f"{upload_dir.name}.pkl")
     return div, None, bool(extracted_files_names), f"/map/{upload_dir.name}"

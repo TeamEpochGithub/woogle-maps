@@ -7,7 +7,7 @@
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/TeamEpochGithub/woogle-maps/main.svg)](https://results.pre-commit.ci/latest/github/TeamEpochGithub/woogle-maps/main)
 [![codecov](https://codecov.io/gh/TeamEpochGithub/woogle-maps/graph/badge.svg)](https://codecov.io/gh/TeamEpochGithub/woogle-maps)
 
-Woogle Maps is  a tool for structuring documents in multiple clear storylines, visualizing the relationships between them. 
+Woogle Maps is  a tool for structuring documents in multiple clear storylines, visualizing the relationships between them.
 
 This tool was made by Team Epoch IV for the [Rijksoverheid](https://www.rijksoverheid.nl/) and the [National Archive](https://www.nationaalarchief.nl/).
 Read more about this [here](https://teamepoch.ai/competitions#Government).

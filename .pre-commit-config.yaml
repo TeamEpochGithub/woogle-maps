@@ -80,18 +80,17 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies:
-          - numpy
+          - numpy>=1.22.4, < 2
           - scikit-learn
           - scikit-image
           - scipy
           - tqdm
           - typing
-          - typing_extensions
-          - polars
+          - polars>=0.20.22
           - seaborn
           - matplotlib
           - plotly
-          - torch
+          - torch>=2.1.0, <2.3.0
           - dash
           - dash-bootstrap-components
           - dash-bootstrap-templates
