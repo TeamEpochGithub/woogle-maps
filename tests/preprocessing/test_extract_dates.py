@@ -1,13 +1,10 @@
 """Test the extract_dates_regex.py module."""
 
-import locale
 from unittest import TestCase
 
 import pandas as pd
 
 from src.preprocessing.extract_dates_regex import ExtractDatesRegex
-
-locale.setlocale(locale.LC_ALL, "nl_NL")
 
 
 class ExtractDateRegexTest(TestCase):

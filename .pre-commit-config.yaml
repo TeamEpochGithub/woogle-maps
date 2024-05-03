@@ -1,4 +1,8 @@
 exclude: ^(external/|venv/|.venv/|notebooks/|scripts/|test/|tests/)
+ci:
+  skip:
+    - check-merge-conflict
+    - poetry-install
 repos:
   - repo: local  # Remove this when a new version of pre-commit-hooks (>4.6.0) is released
     hooks:
@@ -61,6 +65,7 @@ repos:
     hooks:
       - id: poetry-check
       - id: poetry-lock
+        stages: [pre-commit, pre-merge-commit, pre-push]  # Exclude manual stage since that messes up the CI
       - id: poetry-export
         args: [ --without-hashes, --with=test, --with=docs, --format, requirements.txt, --output, requirements.txt ]
       - id: poetry-install
