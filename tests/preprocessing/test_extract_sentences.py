@@ -1,11 +1,15 @@
 """Tests for the ExtractImportantSentences class."""
-
-from .utils import get_test_df
 from unittest import TestCase
 
+import nltk
 import pandas as pd
 
 from src.preprocessing.extract_important_sentences import ExtractImportantSentences
+from .utils import get_test_df
+
+nltk.download("punkt")
+nltk.download("stopwords")
+nltk.download("wordnet")
 
 
 class ExtractImportantSentencesTest(TestCase):
