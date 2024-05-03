@@ -296,7 +296,6 @@ pyrightconfig.json
 
 # Datasets & Models
 data/
-tm/
 *.zip
 
 # Logs
