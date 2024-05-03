@@ -305,3 +305,6 @@ outputs/
 results/
 wandb/
 myenv/
+
+# Coverage report
+coverage_re/

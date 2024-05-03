@@ -56,6 +56,14 @@ python dashapp/app.py
 
 This will start the web app on `http://localhost:8060/`.
 
+## Pytest coverage report
+
+To generate pytest coverage report run:
+
+```shell
+poetry run pytest --cov=src --cov-branch --cov-report=html:coverage_re
+```
+
 ## Documentation
 
 Documentation is generated using [Sphinx](https://www.sphinx-doc.org/en/master/).
