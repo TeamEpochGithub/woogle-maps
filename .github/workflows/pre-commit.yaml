@@ -9,8 +9,11 @@ jobs:
   pre-commit:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4.1.4
-      - uses: actions/setup-python@v5.1.0
+      - name: Check out repository
+        uses: actions/checkout@v4.1.4
+      - name: Setup python
+        uses: actions/setup-python@v5.1.0
         with:
           python-version: 3.12
-      - uses: pre-commit/action@v3.0.1
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1

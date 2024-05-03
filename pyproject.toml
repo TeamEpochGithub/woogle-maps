@@ -54,7 +54,6 @@ notebook = "^7.1.2"
 dash-mantine-components = "^0.12.1"
 dash-iconify = "^0.1.2"
 rustworkx = "^0.14.2"
-pytest = "^8.1.1"
 polars = "^0.20.16"
 gensim = "^4.3.2"
 pypdf = {extras = ["full"], version = "^4.1.0"}
@@ -70,6 +69,9 @@ flask = "^3.0.3"
 
 [tool.poetry.group.test.dependencies]
 pre-commit = "^3.6.2"
+pytest = "^8.2.0"
+coverage = "^7.5.0"
+codecov = "^2.1.13"
 
 [tool.poetry.group.docs]
 
