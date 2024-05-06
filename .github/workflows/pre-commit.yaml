@@ -1,3 +1,5 @@
+# Remove this when we set up pre-commit CI
+
 name: pre-commit
 
 on:
