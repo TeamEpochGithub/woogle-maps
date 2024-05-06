@@ -9,9 +9,9 @@
 
 Woogle Maps is a tool for structuring documents in multiple clear storylines, visualizing the relationships between them.
 
-On the basis of a list of PDF documents as input, Woogle Maps automatically generates a TimeFlow as output. 
-This TimeFlow – a timeline with a graphical structure – describes the events that underlie these documents, 
-and attaches every document to at least one event. 
+On the basis of a list of PDF documents as input, Woogle Maps automatically generates a TimeFlow as output.
+This TimeFlow – a timeline with a graphical structure – describes the events that underlie these documents,
+and attaches every document to at least one event.
 Woogle Maps encompasses an extension of the original Narrative Maps algorithm created by Brian Keith Norambuena.
 
 ## Getting started
@@ -90,7 +90,7 @@ cd ../
 
 ## Contributors
 
-Woogle Maps was created by [Team Epoch IV](https://teamepoch.ai/team), based in the [Dream Hall](https://www.tudelft.nl/ddream) of the [Delft University of Technology](https://www.tudelft.nl/). 
+Woogle Maps was created by [Team Epoch IV](https://teamepoch.ai/team), based in the [Dream Hall](https://www.tudelft.nl/ddream) of the [Delft University of Technology](https://www.tudelft.nl/).
 This project was commisioned by [Nationaal Archief](https://www.nationaalarchief.nl/) and financed by [i-Partnerschap](https://www.rijksorganisatieodi.nl/i-partnerschap).
 
 Read more about this [here](https://teamepoch.ai/competitions#Government).
@@ -100,4 +100,3 @@ Read more about this [here](https://teamepoch.ai/competitions#Government).
 - Supervisor: [Max Muller](https://www.linkedin.com/in/max-muller-2861625b/) (Nationaal Archief)
 - Advisors: [Erik Saaman](https://www.linkedin.com/in/erik-saaman-5246624/) (Nationaal Archief) and [Paul van den Akker](https://www.linkedin.com/in/paulvdakker/) (Nationaal Archief)
 - Relationship managers: [Evelien Christiaanse](https://www.linkedin.com/in/evelienchristiaanse/) (i-Partnerschap), [Arlette Wegman](https://www.linkedin.com/in/arlettewegman/t) (i-Partnerschap), [Robert van Poeteren](https://www.linkedin.com/in/robert-van-poeteren-994041283/) (Epoch IV), [Brian Witmer](https://www.linkedin.com/in/brian-witmer-222028190/) (Epoch IV), and [Emiel Witting](https://www.linkedin.com/in/emiel-witting-3b515a290/) (Epoch IV)
- 
