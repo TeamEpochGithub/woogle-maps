@@ -113,7 +113,7 @@ class LinearProgramming(TransformationBlock, Logger):
 
         return prob
 
-    def _solving_problem(self, similarity: npt.NDArray[np.float64], memberships: npt.NDArray[np.float64]) -> dict[str, npt.NDArray[np.float64]]:
+    def _solving_problem(self, similarity: npt.NDArray[np.float64], memberships: npt.NDArray[np.float64]) -> dict[str, float]:
         """Create the linear programming problem.
 
         :param similarity: the similarity matrix of the nodes.
@@ -129,7 +129,7 @@ class LinearProgramming(TransformationBlock, Logger):
 
         for v in problem.variables():
             if "node_next" in v.name or "node_active" in v.name:
-                variable_dict[v.name] = np.clip(v.varValue, 0, 1)
+                variable_dict[v.name] = min(max(v.varValue, 0), 1)
 
         return variable_dict
 
@@ -165,7 +165,7 @@ class LinearProgramming(TransformationBlock, Logger):
         return np.sqrt(event * cluster)
 
     @override
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # type: ignore[misc]  # noqa: DOC103
         """Create the adjacency list and weights based on the solution.
 
         :param data: the pandas dataframe containing the embeddings.

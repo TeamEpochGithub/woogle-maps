@@ -1,7 +1,7 @@
 """Impute missing dates by filling them with the most similar embedding."""
 
 from dataclasses import dataclass
-from typing import Any, override
+from typing import Any
 from zoneinfo import ZoneInfo
 
 import numpy as np
@@ -19,8 +19,7 @@ class ImputeDates(TransformationBlock, Logger):
     Replaces NaN values in the date column with one from the closest document embedding.
     """
 
-    @override
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
         """Set the missing dates to the fill_date.
 
         :param data: The data to transform.
@@ -36,13 +35,13 @@ class ImputeDates(TransformationBlock, Logger):
 
         self.log_to_terminal(f"Imputing {data["date"].isna().sum()} missing dates...")
 
-        all_embeddings = np.stack(data["embed"].to_numpy())
+        all_embeddings = np.stack(data["embed"].to_list())
         not_na_rows = data[data["date"].notna()]
         if len(not_na_rows) <= 0:
             self.log_to_warning("None of the documents have a date. Unable to impute dates.")
             return data
 
-        not_na_embeddings = np.stack(not_na_rows["embed"].to_numpy())
+        not_na_embeddings = np.stack(not_na_rows["embed"].to_list())
 
         similarities = cosine_similarity(all_embeddings, not_na_embeddings)
         most_similar_indices = np.argmax(similarities, axis=1)

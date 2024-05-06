@@ -101,6 +101,9 @@ def upload_files(contents: list[str], filenames: list[str]) -> tuple[html.Div, N
     :param filenames: The names of the uploaded files.
     :return: The updates to the page.
     """
+    if not contents or not filenames:
+        raise PreventUpdate
+
     # Create a directory to extract files
     upload_dir = UPLOAD_DATA_PATH / randomname.get_name()
     upload_dir.mkdir(parents=True, exist_ok=True)
@@ -154,6 +157,29 @@ def upload_files(contents: list[str], filenames: list[str]) -> tuple[html.Div, N
     if csv_files:
         csv_files.append(data)
         data = pd.concat(csv_files, ignore_index=True)
-    data.to_pickle(RAW_DATA_PATH / f"{upload_dir.name}.pkl")
 
+    if data.empty:
+        return (
+            html.Div(
+                [
+                    "No valid documents found in the uploaded files or zip file. Only PDF and CSV document files are accepted.",
+                ],
+            ),
+            None,
+            False,
+            "/",
+        )
+    if len(data.index) < 5:
+        return (
+            html.Div(
+                [
+                    "Please upload at least 5 documents.",
+                ],
+            ),
+            None,
+            False,
+            "/",
+        )
+
+    data.to_pickle(RAW_DATA_PATH / f"{upload_dir.name}.pkl")
     return div, None, bool(extracted_files_names), f"/map/{upload_dir.name}"

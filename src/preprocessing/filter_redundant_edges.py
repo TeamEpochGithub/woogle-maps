@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from math import exp, log
-from typing import Any, override
+from typing import Any
 
 import pandas as pd
 import polars as pl
@@ -20,8 +20,7 @@ class FilterRedundantEdges(TransformationBlock, Logger):
     It will return the data with the redundant edges filtered out.
     """
 
-    @override
-    def custom_transform(self, data: pd.DataFrame | pl.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
         """Filter out redundant edges from the data.
 
         :param data: The data to filter the redundant edges from.
@@ -32,14 +31,13 @@ class FilterRedundantEdges(TransformationBlock, Logger):
             self.log_to_warning("The input data does not have an 'adj_list' and 'adj_weights' column. Filtering redundant edges not necessary.")
             return data
 
-        if isinstance(data, pd.DataFrame):
-            data = pl.from_pandas(data)
+        pl_data = pl.from_pandas(data)
 
         full_data = None
-        if "clusters" in data.columns:
-            full_data = data.clone().drop(["adj_list", "adj_weights", "storyline"])
-            data = (
-                data.group_by("clusters")
+        if "clusters" in pl_data.columns:
+            full_data = pl_data.clone().drop(["adj_list", "adj_weights", "storyline"])
+            pl_data = (
+                pl_data.group_by("clusters")
                 .agg(
                     [
                         pl.col("adj_list").first().alias("adj_list"),
@@ -50,8 +48,8 @@ class FilterRedundantEdges(TransformationBlock, Logger):
                 .sort("clusters")
             )
 
-        storylines = data.select("storyline").with_row_index().group_by("storyline").agg(pl.col("index")).sort("storyline").get_column("index").to_list()
-        graph = build_graph_from_adj_list(data.get_column("adj_list").to_list(), data.get_column("adj_weights").to_list())
+        storylines = pl_data.select("storyline").with_row_index().group_by("storyline").agg(pl.col("index")).sort("storyline").get_column("index").to_list()
+        graph = build_graph_from_adj_list(pl_data.get_column("adj_list").to_list(), pl_data.get_column("adj_weights").to_list())
 
         # Apply Transitive Reduction
         graph = transitive_reduction(graph, storylines)
@@ -60,10 +58,10 @@ class FilterRedundantEdges(TransformationBlock, Logger):
         graph = filter_interstory_connections(graph, storylines)
 
         # Update the graph to reflect the changes
-        new_adj_list: list[list[int]] = [[]] * data.height
-        new_adj_weights: list[list[float]] = [[]] * data.height
+        new_adj_list: list[list[int]] = [[0]] * pl_data.height
+        new_adj_weights: list[list[float]] = [[0]] * pl_data.height
 
-        for i in range(data.height):
+        for i in range(pl_data.height):
             edges: list[tuple[int, int, float]] = list(graph.out_edges(i))
             if not edges:
                 continue
@@ -77,7 +75,7 @@ class FilterRedundantEdges(TransformationBlock, Logger):
             new_adj_weights[i] = [exp(-weight) for (_, _, weight) in new_edges]
 
         # Update the data
-        data = data.with_columns(
+        pl_data = pl_data.with_columns(
             [
                 pl.Series("adj_list", new_adj_list),
                 pl.Series("adj_weights", new_adj_weights),
@@ -85,6 +83,6 @@ class FilterRedundantEdges(TransformationBlock, Logger):
         ).drop("index")
 
         if full_data is not None:
-            data = data.join(full_data, on="clusters")
+            pl_data = pl_data.join(full_data, on="clusters")
 
-        return data.to_pandas().drop("index", errors="ignore")
+        return pl_data.to_pandas().drop("index", errors="ignore")

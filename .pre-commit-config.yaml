@@ -1,11 +1,23 @@
 exclude: ^(external/|venv/|.venv/|notebooks/|scripts/|test/|tests/)
+ci:
+  skip:
+    - check-merge-conflict
+    - poetry-install
 repos:
+  - repo: local  # Remove this when a new version of pre-commit-hooks (>4.6.0) is released
+    hooks:
+      - id: check-illegal-windows-names
+        name: check illegal windows names
+        entry: Illegal Windows filenames detected
+        language: fail
+        files: '(?i)((^|/)(CON|PRN|AUX|NUL|COM[\d¹²³]|LPT[\d¹²³])(\.|/|$)|[<>:\"\\|?*\x00-\x1F]|/[^/]*[\.\s]/|[^/]*[\.\s]$)'
   - repo: https://github.com/pre-commit/pre-commit-hooks
     rev: v4.6.0
     hooks:
       - id: check-added-large-files
       - id: check-builtin-literals
       - id: check-executables-have-shebangs
+      # - id: check-illegal-windows-names  # Uncomment this when a new version of pre-commit-hooks (>4.6.0) is released
       - id: check-json
       - id: pretty-format-json
         args: [ --autofix, --no-sort-keys ]
@@ -36,7 +48,7 @@ repos:
       - id: python-no-log-warn
       - id: python-use-type-annotations
   - repo: https://github.com/jackdewinter/pymarkdown
-    rev: v0.9.18
+    rev: v0.9.19
     hooks:
       - id: pymarkdown
         args:
@@ -52,38 +64,33 @@ repos:
     rev: 1.8.0
     hooks:
       - id: poetry-check
-      - id: poetry-lock
+        args: [ --lock ]
+  #    - id: poetry-lock  # Commented out because it breaks CI. Uncomment this on your local machine.
       - id: poetry-export
         args: [ --without-hashes, --with=test, --with=docs, --format, requirements.txt, --output, requirements.txt ]
       - id: poetry-install
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.3.7
+    rev: v0.4.3
     hooks:
       - id: ruff-format
       - id: ruff
-# Pydoclint is useful, but gives too many false positives
-#  - repo: https://github.com/jsh9/pydoclint
-#    rev: 0.4.1
-#    hooks:
-#      - id: pydoclint
-#        args: [ --quiet ]
+  # Pydoclint is useful, but gives too many false positives
+  #  - repo: https://github.com/jsh9/pydoclint
+  #    rev: 0.4.1
+  #    hooks:
+  #      - id: pydoclint
+  #        args: [ --quiet ]
   - repo: https://github.com/pre-commit/mirrors-mypy
-    rev: v1.9.0
+    rev: v1.10.0
     hooks:
       - id: mypy
         additional_dependencies:
-          - numpy
+          - numpy>=1.22.4, < 2
           - scikit-learn
-          - scikit-image
           - scipy
           - tqdm
-          - typing
-          - typing_extensions
-          - polars
-          - seaborn
-          - matplotlib
-          - plotly
-          - torch
+          - polars>=0.20.22
+          - torch>=2.1.0, <2.3.0
           - dash
           - dash-bootstrap-components
           - dash-bootstrap-templates

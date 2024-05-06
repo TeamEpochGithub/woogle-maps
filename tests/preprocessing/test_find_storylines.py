@@ -1,12 +1,11 @@
 import pandas as pd
-import polars as pl
 
 from src.preprocessing.find_storylines import FindStorylines
 
 
 class TestFindStorylines:
 
-    def test_reduction(self):
+    def test__reduction(self):
         data = pd.DataFrame({
             "title": [
                 "Covid in Wuhan",
@@ -52,7 +51,7 @@ class TestFindStorylines:
         assert res_df['storyline'].tolist() == storylines
 
     def test__find_storylines(self):
-        data = pl.DataFrame(
+        data = pd.DataFrame(
             {
                 "adj_list": [[8, 10, 1], [7, 8, 2], [7, 8, 10], [4, 5], [7, 8, 6], [7], [8, 9, 10], [8, 10], [12, 10, 9], [12, 13, 10], [11, 13], [13], [], []],
                 "adj_weights": [
@@ -81,7 +80,7 @@ class TestFindStorylines:
         assert res_df["storyline"].to_list() == [0, 0, 0, 1, 1, 2, 3, 2, 1, 3, 0, 4, 1, 0]
 
     def test__find_stories_2(self) -> None:
-        data = pl.DataFrame(
+        data = pd.DataFrame(
             {
                 "adj_list": [[1, 2, 3, 4], [2, 3, 4, 5], [3], [4], [5, 6, 7, 8], [6, 7, 8, 9], [8, 9], [8, 9], [9, 10], [10], [11, 12], [12, 13, 14], [13, 14],
                              [14, 15, 16, 17], [15, 16, 17], [16, 17, 18], [17, 18, 20], [18, 19, 20, 21], [19, 20, 21], [20, 23], [21, 22, 23, 24], [22, 23], [23, 25, 26],

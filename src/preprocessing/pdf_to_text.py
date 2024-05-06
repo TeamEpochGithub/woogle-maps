@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from pathlib import Path
-from typing import Any, override
+from typing import Any
 
 import pandas as pd
 from epochalyst.pipeline.model.transformation.transformation_block import TransformationBlock
@@ -20,12 +20,11 @@ class PdfToText(TransformationBlock, Logger):
 
     files: list[Path]
 
-    @override
-    def custom_transform(self, data: pd.DataFrame, **kwargs: Any) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
         """Extract text from a list of PDF files.
 
         :param data: The data to transform.
-        :param kwargs: files: The files to extract the text from.
+        :param transform_args: Additional keyword arguments (UNUSED).
         :return: a DataFrame with the extracted text.
         """
         if not self.files:

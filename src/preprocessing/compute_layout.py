@@ -3,7 +3,7 @@
 import math
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Literal, override
+from typing import Any, Literal, cast
 
 import pandas as pd
 import polars as pl
@@ -27,8 +27,7 @@ class ComputeLayout(TransformationBlock, Logger):
     spacing_within_story: Literal["uniform", "time-scaled"] = "uniform"
     transpose: bool = False
 
-    @override
-    def custom_transform(self, data: pd.DataFrame | pl.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103
         """Compute the layout of the graph.
 
         Retrieves the storylines from the data and computes the layout of the nodes.
@@ -41,14 +40,13 @@ class ComputeLayout(TransformationBlock, Logger):
             self.log_to_warning("The data does not contain valid 'adj_list', 'adj_weights', and/or storyline' columns. Not computing layout.")
             return data
 
-        if isinstance(data, pd.DataFrame):
-            data = pl.from_pandas(data)
+        pl_data = pl.from_pandas(data)
 
         full_data = None
-        if "clusters" in data.columns:
-            full_data = data.clone().drop(["adj_list", "adj_weights", "storyline"])
-            data = (
-                data.group_by("clusters")
+        if "clusters" in pl_data.columns:
+            full_data = pl_data.clone().drop(["adj_list", "adj_weights", "storyline"])
+            pl_data = (
+                pl_data.group_by("clusters")
                 .agg(
                     [
                         pl.col("adj_list").first().alias("adj_list"),
@@ -60,25 +58,25 @@ class ComputeLayout(TransformationBlock, Logger):
                 .sort("clusters")
             )
 
-        self.log_to_terminal(f"Computing layout of {data.height} nodes...")
+        self.log_to_terminal(f"Computing layout of {pl_data.height} nodes...")
 
         # Group data by storyline and get nodes within each storyline
-        storylines: pl.DataFrame = data.select("storyline").with_row_index().group_by("storyline").agg(pl.col("index")).sort("storyline")
+        storylines: pl.DataFrame = pl_data.select("storyline").with_row_index().group_by("storyline").agg(pl.col("index")).sort("storyline")
 
         if self.spacing_within_story == "time-scaled":
-            if ("date" not in data.columns) or (data["date"].max() is None) or (data["date"].min() == data["date"].max()):
+            if ("date" not in pl_data.columns) or (pl_data["date"].max() is None) or (pl_data["date"].min() == pl_data["date"].max()):
                 self.log_to_warning("The data does not contain a valid 'date' column. Uniform node spacing is forced.")
                 self.spacing_within_story = "uniform"
             else:
-                min_date: datetime = data["date"].min()
-                max_date: datetime = data["date"].max()
+                min_date = cast(datetime, pl_data["date"].min())
+                max_date = cast(datetime, pl_data["date"].max())
                 total_range_seconds = (max_date - min_date).total_seconds()
-                node_dates: list[datetime] = data["date"].to_list()
+                node_dates = pl_data["date"].to_list()
 
-        x_coords = [0.0] * data.height
-        y_coords = [0.0] * data.height
+        x_coords = [0.0] * pl_data.height
+        y_coords = [0.0] * pl_data.height
 
-        max_story_length: int = storylines["index"].list.len().max()
+        max_story_length: int = cast(int, storylines["index"].list.len().max())
 
         for story_id, node_indices in storylines.iter_rows():
             y = math.ceil(story_id / 2) * ((-1) ** story_id) * 200  # Make storylines alternate between top and bottom of the main storyline
@@ -96,7 +94,7 @@ class ComputeLayout(TransformationBlock, Logger):
         if self.transpose:  # Swap x and y coordinates
             x_coords, y_coords = y_coords, x_coords
 
-        data = data.with_columns(
+        pl_data = pl_data.with_columns(
             [
                 pl.Series("x", x_coords),
                 pl.Series("y", y_coords),
@@ -104,6 +102,6 @@ class ComputeLayout(TransformationBlock, Logger):
         ).drop("index")
 
         if full_data is not None:
-            data = data.drop("date").join(full_data, on="clusters")
+            pl_data = pl_data.drop("date").join(full_data, on="clusters")
 
-        return data.to_pandas().drop("index", errors="ignore")
+        return pl_data.to_pandas().drop("index", errors="ignore")

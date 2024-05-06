@@ -35,7 +35,7 @@ class ClusterExplainer(TransformationBlock, Logger):
 
         return important[: self.threshold]
 
-    @override
+    @override  # type: ignore[misc]
     def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: DOC103
         """Generate a summary and extract the entities from the cluster.
 

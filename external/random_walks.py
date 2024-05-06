@@ -1,3 +1,5 @@
+# mypy: ignore-errors
+
 import os
 import random
 from collections import defaultdict

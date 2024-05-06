@@ -1,0 +1,21 @@
+# Remove this when we set up pre-commit CI
+
+name: pre-commit
+
+on:
+  pull_request:
+  push:
+    branches: [ main ]
+
+jobs:
+  pre-commit:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4.1.4
+      - name: Setup python
+        uses: actions/setup-python@v5.1.0
+        with:
+          python-version: 3.12
+      - name: Run pre-commit
+        uses: pre-commit/action@v3.0.1

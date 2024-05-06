@@ -11,8 +11,7 @@ from typing import Any, Final
 
 from pygit2 import Repository  # type: ignore[import-untyped, import-not-found]
 
-# TODO(Jeffrey): Replace this with GitHub URL later
-REPO_URL: Final[str] = f"https://github.com/Jeffrey-Lim/woogle-maps/-/blob/{Repository('.').head.shorthand}/"
+REPO_URL: Final[str] = f"https://github.com/TeamEpochGithub/woogle-maps/-/blob/{Repository('.').head.shorthand}/"
 
 sys.path.insert(0, Path("../..").resolve().as_posix())
 
