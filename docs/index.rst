@@ -10,7 +10,9 @@ Index
 .. toctree::
    :maxdepth: 2
 
-   readme_link
+   pages/readme_link
+   pages/usage
+   pages/limitations
 
 
 -------------------
