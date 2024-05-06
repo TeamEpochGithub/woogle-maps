@@ -1,6 +1,9 @@
 Usage
 ================
 
+Home
+----------------
+
 Once you have Woogle Maps set up as described in the :doc:`readme_link`, you will see the home screen:
 
 .. image:: ../../_static/screenshots/home.png
@@ -20,6 +23,9 @@ If you want to preprocess a new dossier, you can upload your own documents.
 
 After that, hit the "Generate Narrative Map" button.
 This step may take a few minutes, depending on the size of your dossier and the performance of your machine.
+
+Map
+----------------
 
 Once it is done processing your dossier, you will see the narrative map:
 

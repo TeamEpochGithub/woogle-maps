@@ -22,7 +22,8 @@ This model could be used to improve the *creation date extraction*, *the cluster
 
 A lot of the open Dutch models simply did not perform that well in our tests.
 We tried the following models:
- * `RobBERT: Dutch RoBERTa-based Language Model <https://huggingface.co/pdelobelle/robbert-v2-dutch-base>`_
+
+- `RobBERT: Dutch RoBERTa-based Language Model <https://huggingface.co/pdelobelle/robbert-v2-dutch-base>`_
 
 Keep in mind that we were not allowed to use closed source models such as `GPT-4 <https://openai.com/index/gpt-4>`_,
 which would perform a lot better, but pose a potential privacy risk.
