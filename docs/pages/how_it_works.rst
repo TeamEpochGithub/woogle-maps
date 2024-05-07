@@ -90,9 +90,6 @@ This functionality is implemented in :py:mod:`src.preprocessing.compute_topical_
 Random Walk Embedding
 +++++++++++++++++++++
 
-We use a `Node2Vec <https://snap.stanford.edu/node2vec/>`_ model to create a numeric representation of the text.
-This numeric representation can be used to “measure” how similar documents are.
-
 .. warning::
    Documentation is still WIP:
 
@@ -115,7 +112,11 @@ This functionality is implemented in :py:mod:`src.preprocessing.impute_dates`.
 Cluster Documents
 +++++++++++++++++
 
-We create the events by clustering the documents based on the date and the using the embeddings we created in the previous step.
+.. warning::
+   Documentation is still WIP:
+
+   - Add more about the Clustering.
+   - Explain why we chose this approach.
 
 
 This functionality is implemented in :py:mod:`src.preprocessing.cluster_documents`.
@@ -206,4 +207,3 @@ Bibliography
 ------------
 
 .. bibliography::
-
