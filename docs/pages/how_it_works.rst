@@ -15,7 +15,7 @@ Preprocessing Pipeline
 
 Before we talk about the individual pipeline steps, we will first explain the pipeline itself.
 
-The pipeline we use inherits from from :py:class:`epochalyst.pipeline.model.transformation.transformation.TransformationPipeline`
+The pipeline we use inherits from :py:class:`epochalyst.pipeline.model.transformation.transformation.TransformationPipeline`
 from `Epochalyst <https://github.com/TeamEpochGithub/epochalyst>`_, Team Epoch's basis for AI competitions.
 This pipeline runs the data through all the steps we described above with functionalities such as caching intermediate results and logging already implemented.
 All the steps inherit from :py:class:`epochalyst.pipeline.model.transformation.transformation_block.TransformationBlock`.
