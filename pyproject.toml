@@ -46,12 +46,12 @@ transformers = {extras = ["torch"], version = "^4.38.2"}
 sentence-transformers = "^2.5.1"
 lexrank = "^0.1.0"
 pandas = {extras = ["performance"], version = "^2.2.1"}
-pyarrow = "^15.0.1"
-epochalyst = "^0.2.0"
+pyarrow = "^16.0.0"
+epochalyst = "^0.3.2"
 hdbscan = "^0.8.33"
 dask = {extras = ["dataframe"], version = "^2024.3.1"}
 notebook = "^7.1.2"
-dash-mantine-components = "^0.12.1"
+dash-mantine-components = "^0.14.3"
 dash-iconify = "^0.1.2"
 rustworkx = "^0.14.2"
 polars = "^0.20.16"
@@ -61,7 +61,7 @@ reportlab = "^4.1.0"
 scikit-learn = "^1.4.1.post1"
 pulp = "^2.8.0"
 umap-learn = "^0.5.6"
-scipy = "<1.13.0"
+scipy = "<1.14.0"
 randomname = "^0.2.1"
 flask = "^3.0.3"
 
@@ -78,9 +78,9 @@ codecov = "^2.1.13"
 
 [tool.poetry.group.docs.dependencies]
 sphinx = "^7.2.6"
-sphinx-autodoc-typehints = "^2.0.0"
-sphinxawesome-theme = "^5.1.3"
-myst-parser = "^2.0.0"
+sphinx-autodoc-typehints = "^2.0.1"
+sphinxawesome-theme = "^5.1.4"
+myst-parser = "^3.0.1"
 pygit2 = "^1.14.1"
 sphinxcontrib-bibtex = "^2.6.2"
 
