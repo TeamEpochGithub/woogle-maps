@@ -3,7 +3,6 @@ ci:
   skip:
     - poetry-lock
     - poetry-install
-    - mypy  # TODO(Jeffrey): Fix MyPy on CI
 repos:
   - repo: local  # Remove this when a new version of pre-commit-hooks (>4.6.0) is released
     hooks:
@@ -86,9 +85,9 @@ repos:
     hooks:
       - id: mypy
         additional_dependencies:
-          - numpy>=1.22.4, < 2
+          - numpy>=1.26.4, < 2
           - scikit-learn
-          - scipy
+          - scipy<=1.12.0
           - tqdm
           - polars>=0.20.22
           - torch>=2.1.0, <2.3.0
@@ -109,7 +108,7 @@ repos:
           - epochalyst
           - transformers
           - gensim
-          - dash-mantine-components
+          - dash-mantine-components<=0.12.1
           - dash-iconify
           - dash_cytoscape
           - rustworkx
