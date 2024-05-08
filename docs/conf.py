@@ -34,6 +34,7 @@ extensions: Final[list[str]] = [
     "myst_parser",
     "sphinxawesome_theme.highlighting",
     "sphinx_autodoc_typehints",
+    "sphinxcontrib.bibtex",
 ]
 autosummary_generate: Final[bool] = True
 autodoc_typehints: Final[str] = "signature"
@@ -101,3 +102,4 @@ html_use_smartypants: Final[bool] = True
 html_show_sourcelink: Final[bool] = True
 html_show_sphinx: Final[bool] = True
 html_show_copyright: Final[bool] = True
+bibtex_bibfiles = ["bibliography.bib"]
