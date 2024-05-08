@@ -58,6 +58,12 @@ python dashapp/app.py
 
 This will start the web app on `http://localhost:8060/`.
 
+## Google Colab
+
+Instead of running the code locally, you can also run the code in Google Colab. 
+Upload the `Google Colab Preview.ipynb` file to Google Colab and run all cells.
+Once all cells except the last one are done, you can access the app in the link provided at the end of Step 4.
+
 ## Pytest coverage report
 
 To generate pytest coverage report run:
