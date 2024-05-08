@@ -12,3 +12,7 @@ updates:
       python-packages:
         patterns:
           - "*"
+    ignore:
+      - dependency-name: "scipy"
+        versions: ["1.13.0"]
+      - dependency-name: "dash-mantine-components"

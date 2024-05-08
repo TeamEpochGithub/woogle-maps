@@ -21,9 +21,9 @@ class VerboseTransformationPipeline(TransformationPipeline, Logger):
         """
         if not self.steps:
             return False
-        if self._cache_exists(name=self.get_hash(), cache_args=cache_args):
+        if self.cache_exists(name=self.get_hash(), cache_args=cache_args):
             return True
-        return any(step._cache_exists(name=step.get_hash(), cache_args=cache_args) for step in self.steps)  # noqa: SLF001
+        return any(step.cache_exists(name=step.get_hash(), cache_args=cache_args) for step in self.steps)
 
     def run_dossier_pipeline(self, dossier_id: str, raw_data_path: Path, processed_data_path: Path, final_data_path: Path) -> pd.DataFrame:
         """Run the pipeline on the data.
