@@ -54,7 +54,7 @@ notebook = "^7.1.2"
 dash-mantine-components = "^0.14.3"
 dash-iconify = "^0.1.2"
 rustworkx = "^0.14.2"
-polars = "^0.20.16"
+polars = "^0.20.25"
 gensim = "^4.3.2"
 pypdf = {extras = ["full"], version = "^4.1.0"}
 reportlab = "^4.1.0"
