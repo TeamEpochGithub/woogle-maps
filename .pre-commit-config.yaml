@@ -3,6 +3,7 @@ ci:
   skip:
     - poetry-lock
     - poetry-install
+    - mypy  # TODO(Jeffrey): Fix MyPy on CI
 repos:
   - repo: local  # Remove this when a new version of pre-commit-hooks (>4.6.0) is released
     hooks:

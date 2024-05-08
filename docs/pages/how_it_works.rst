@@ -170,7 +170,7 @@ This functionality is implemented in :py:mod:`src.preprocessing.find_storylines`
 
 
 Filter Redundant Edges
-+++++++++++++++++++++
+++++++++++++++++++++++
 
 After finding the storylines, there are a lot of redundant edges the graph that we do not need anymore.
 We perform transitive reduction and filter interstory connections the same way as in Keith's Narrative Maps.
