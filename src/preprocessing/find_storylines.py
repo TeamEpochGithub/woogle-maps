@@ -1,7 +1,7 @@
 """Find the storylines in the data."""
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Never
 
 import pandas as pd
 import polars as pl
@@ -20,11 +20,11 @@ class FindStorylines(TransformationBlock, Logger):
     It will return the data with a "storyline" column that contains the storyline index for each row.
     """
 
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Never) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
         """Find the storylines in the data.
 
         :param data: The data to find the storylines in.
-        :param transform_args: Additional keyword arguments (UNUSED).
+        :param transform_args: [UNUSED] Additional keyword arguments.
         :return: The data with the storylines.
         """
         if "adj_list" not in data.columns or "adj_weights" not in data.columns:

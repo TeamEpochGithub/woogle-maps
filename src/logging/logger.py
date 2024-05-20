@@ -3,7 +3,7 @@
 import logging
 import sys
 from types import TracebackType
-from typing import Any
+from typing import Any, Never
 
 from epochalyst._core._logging._logger import _Logger
 from epochalyst.logging.section_separator import print_section_separator
@@ -37,7 +37,7 @@ class Logger(_Logger):
     - log_to_terminal(message: str) -> None
     - log_to_debug(message: str) -> None
     - log_to_warning(message: str) -> None
-    - log_to_external(message: dict[str, Any], **kwargs: Any) -> None
+    - log_to_external(message: dict[str, Any], **kwargs: Never) -> None
     - external_define_metric(metric: str, metric_type: str) -> None
     """
 
@@ -62,7 +62,7 @@ class Logger(_Logger):
         """
         logger.warning(message)
 
-    def log_to_external(self, message: dict[str, Any], **kwargs: Any) -> None:  # noqa: ANN401, DOC103
+    def log_to_external(self, message: dict[str, Any], **kwargs: Never) -> None:  # noqa: DOC103
         """Log a message to an external service.
 
         :param message: The message to log.

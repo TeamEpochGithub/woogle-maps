@@ -1,7 +1,7 @@
 """Compute the membership vectors for each cluster."""
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Never
 
 import hdbscan
 import numpy as np
@@ -92,11 +92,11 @@ class ClusterDocuments(TransformationBlock, Logger):
 
         return labels + 1, memberships
 
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Never) -> pd.DataFrame:  # noqa: DOC103
         """Cluster the documents based on the event and the date similarity.
 
         :param data: The data to transform.
-        :param transform_args: Additional keyword arguments (UNUSED).
+        :param transform_args: [UNUSED] Additional keyword arguments.
         :return: The transformed data.
         """
         if "embed" not in data.columns:

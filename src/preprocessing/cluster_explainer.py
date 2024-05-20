@@ -1,7 +1,8 @@
 """Generate a summary of the clusters."""
 
+from collections.abc import Iterable
 from dataclasses import dataclass
-from typing import Any, override
+from typing import Never, override
 
 import pandas as pd
 from epochalyst.pipeline.model.transformation.transformation_block import TransformationBlock
@@ -19,7 +20,7 @@ class ClusterExplainer(TransformationBlock, Logger):
 
     threshold: int = 10
 
-    def rank_sentences(self, sentences: list[str]) -> list[str]:
+    def rank_sentences(self, sentences: Iterable[str]) -> list[str]:
         """Rank the sentences based on the LexRank model.
 
         :param sentences: the filtered sentences in a cluster.
@@ -36,11 +37,11 @@ class ClusterExplainer(TransformationBlock, Logger):
         return important[: self.threshold]
 
     @override  # type: ignore[misc]
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: DOC103
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Never) -> pd.DataFrame:  # noqa: DOC103
         """Generate a summary and extract the entities from the cluster.
 
         :param data: the input data.
-        :param transform_args: the transformation arguments (UNUSED).
+        :param transform_args: [UNUSED] the transformation arguments.
         :return: the transformed data.
         """
         if "clusters" not in data.columns or "summary" not in data.columns:
