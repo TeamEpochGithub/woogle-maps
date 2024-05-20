@@ -71,11 +71,11 @@ class ClusterDocuments(TransformationBlock, Logger):
         clusterable = self._compute_embeddings(embeddings)
 
         # Train and compute the clusters based on HDBSCAN
-        model = hdbscan.HDBSCAN(min_samples=2, min_cluster_size=min_cluster, prediction_data=True, cluster_selection_method="leaf")
-        labels = model.fit_predict(clusterable)
+        model: hdbscan.HDBSCAN = hdbscan.HDBSCAN(min_samples=2, min_cluster_size=min_cluster, prediction_data=True, cluster_selection_method="leaf")
+        labels: npt.NDArray[np.float64] = model.fit_predict(clusterable)
 
         # Compute and normalize the membership vectors
-        memberships = hdbscan.prediction.all_points_membership_vectors(model)
+        memberships: npt.NDArray[np.float64] = hdbscan.prediction.all_points_membership_vectors(model)
 
         if len(memberships.shape) > 1:
             # Remove any low probability
