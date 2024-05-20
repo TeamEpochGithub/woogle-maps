@@ -1,7 +1,7 @@
 """Cluster the documents based on time and event similarity."""
 
 from dataclasses import dataclass
-from typing import Any, cast
+from typing import Never, cast
 
 import numpy as np
 import numpy.typing as npt
@@ -50,11 +50,11 @@ class CreateEvents(TransformationBlock, Logger):
 
         return data.drop("index", axis=1)
 
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Never) -> pd.DataFrame:  # noqa: DOC103
         """Cluster the documents based on the event and the date similarity.
 
         :param data: The data to transform.
-        :param transform_args: Additional keyword arguments (UNUSED).
+        :param transform_args: [UNUSED] Additional keyword arguments.
         :return: The transformed data.
         """
         if "embed" not in data.columns or "discarded" not in data.columns or "adj_list" not in data.columns or "adj_weights" not in data.columns:

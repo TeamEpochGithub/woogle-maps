@@ -3,7 +3,7 @@
 import math
 from dataclasses import dataclass
 from datetime import datetime
-from typing import Any, Literal, cast
+from typing import Literal, Never, cast
 
 import pandas as pd
 import polars as pl
@@ -27,13 +27,13 @@ class ComputeLayout(TransformationBlock, Logger):
     spacing_within_story: Literal["uniform", "time-scaled"] = "uniform"
     transpose: bool = False
 
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Never) -> pd.DataFrame:  # noqa: DOC103
         """Compute the layout of the graph.
 
         Retrieves the storylines from the data and computes the layout of the nodes.
 
         :param data: The data to compute the layout for.
-        :param transform_args: Additional keyword arguments (UNUSED).
+        :param transform_args: [UNUSED] Additional keyword arguments.
         :return: The data with the layout.
         """
         if "adj_list" not in data.columns or "adj_weights" not in data.columns or "storyline" not in data.columns:

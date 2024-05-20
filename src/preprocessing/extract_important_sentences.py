@@ -1,7 +1,7 @@
 """A TransformationBlock that extracts the most important sentences from the data."""
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Never
 
 import nltk
 import pandas as pd
@@ -25,11 +25,11 @@ class ExtractImportantSentences(TransformationBlock, Logger):
     Expects a dataframe with a full_text column, and gives back the most important sentences in a summary column.
     """
 
-    def custom_transform(self, data: pd.DataFrame, **kwargs: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Never) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
         """Extract the most important sentences from the data.
 
         :param data: A pandas dataframe with a full_text column.
-        :param kwargs: Additional keyword arguments (UNUSED).
+        :param transform_args: [UNUSED] Additional keyword arguments.
         :return: A dataframe with the most important sentences in a summary column.
         """
         data = self.merge_whitespace(data)

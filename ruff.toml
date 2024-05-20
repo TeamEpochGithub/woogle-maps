@@ -1,36 +1,18 @@
-exclude = [
-    ".bzr",
-    ".direnv",
-    ".eggs",
-    ".git",
-    ".git-rewrite",
-    ".hg",
+extend-exclude = [
+    ".idea",
     ".ipynb_checkpoints",
-    ".mypy_cache",
-    ".nox",
-    ".pants.d",
     ".pyenv",
     ".pytest_cache",
-    ".pytype",
-    ".ruff_cache",
-    ".svn",
-    ".tox",
-    ".venv",
     ".vscode",
-    "__pypackages__",
-    "_build",
-    "buck-out",
-    "build",
-    "dist",
-    "node_modules",
     "site-packages",
-    "venv",
+    "external",
 ]
 
 line-length = 175
 fix = true
 show-fixes = true
 target-version = "py312"
+required-version = ">=0.4.4"
 
 [lint]
 select = [
@@ -56,11 +38,6 @@ ignore = [
     # flake8-fixme (FIX)
     "FIX001",  # Line contains FIXME
     "FIX002",  # Line contains TODO
-    "FIX003",  # Line contains XXX
-    "FIX004",  # Line contains HACK
-    # pep8-naming (N)
-    "N803",  # Argument name should be lowercase. Variable name "X" is very common in machine learning.
-    "N806",  # Variable in function should be lowercase. Variable name "X" is very common in machine learning.
     # flake8-bandit (S)
     "S311",  # Standard pseudo-random generators are not suitable for cryptographic purposes
     # flake8-use-pathlib (PTH)
@@ -92,8 +69,26 @@ external = [
     "PLR2004", # Magic values in comparison allowed in tests
 ]
 
+[lint.flake8-annotations]
+allow-star-arg-any = true
+
+[lint.flake8-unused-arguments]
+ignore-variadic-names = true
+
+[lint.flake8-import-conventions.extend-aliases]
+"dask.array" = "da"
+"dask.dataframe" = "dd"
+"numpy.typing" = "npt"
+"lightning" = "L"
+
 [lint.isort]
 known-third-party = ["wandb"]
+
+[lint.pep8-naming]
+extend-ignore-names = ["X*"]
+
+[lint.pydocstyle]
+convention = "pep257"
 
 [format]
 docstring-code-format = true
