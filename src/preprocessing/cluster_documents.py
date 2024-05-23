@@ -1,7 +1,7 @@
 """Compute the membership vectors for each cluster."""
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Never
 
 import hdbscan
 import numpy as np
@@ -71,11 +71,11 @@ class ClusterDocuments(TransformationBlock, Logger):
         clusterable = self._compute_embeddings(embeddings)
 
         # Train and compute the clusters based on HDBSCAN
-        model = hdbscan.HDBSCAN(min_samples=2, min_cluster_size=min_cluster, prediction_data=True, cluster_selection_method="leaf")
-        labels = model.fit_predict(clusterable)
+        model: hdbscan.HDBSCAN = hdbscan.HDBSCAN(min_samples=2, min_cluster_size=min_cluster, prediction_data=True, cluster_selection_method="leaf")
+        labels: npt.NDArray[np.float64] = model.fit_predict(clusterable)
 
         # Compute and normalize the membership vectors
-        memberships = hdbscan.prediction.all_points_membership_vectors(model)
+        memberships: npt.NDArray[np.float64] = hdbscan.prediction.all_points_membership_vectors(model)
 
         if len(memberships.shape) > 1:
             # Remove any low probability
@@ -92,11 +92,11 @@ class ClusterDocuments(TransformationBlock, Logger):
 
         return labels + 1, memberships
 
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Never) -> pd.DataFrame:  # noqa: DOC103
         """Cluster the documents based on the event and the date similarity.
 
         :param data: The data to transform.
-        :param transform_args: Additional keyword arguments (UNUSED).
+        :param transform_args: [UNUSED] Additional keyword arguments.
         :return: The transformed data.
         """
         if "embed" not in data.columns:

@@ -1,9 +1,9 @@
 """Module containing the VerboseTransformationPipeline class."""
 
 from pathlib import Path
-from typing import Any
 
 import pandas as pd
+from epochalyst._core._caching._cacher import CacheArgs
 from epochalyst.pipeline.model.transformation.transformation import TransformationPipeline
 
 from src.logging.logger import Logger
@@ -13,7 +13,7 @@ from src.utils.fix_dtypes import fix_dtypes
 class VerboseTransformationPipeline(TransformationPipeline, Logger):
     """A verbose transformation pipeline that logs to the terminal."""
 
-    def get_cache_exists(self, cache_args: dict[str, Any]) -> bool:
+    def get_cache_exists(self, cache_args: CacheArgs | None = None) -> bool:
         """Check if some cache exists.
 
         :param cache_args: The cache arguments.

@@ -1,7 +1,7 @@
 """Extract the embeddings from the topical and date similarities."""
 
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Never
 
 import networkx as nx
 import numpy as np
@@ -32,7 +32,6 @@ class RandomWalkEmbedding(TransformationBlock, Logger):
     walk_length: int = 120
     dimension: int = 120
 
-    _graph: nx.Graph = field(init=False, repr=False)
     _model: Word2Vec = field(init=False, repr=False)
 
     def sparse_matrix(self, similarity: npt.NDArray[np.float64]) -> npt.NDArray[np.float64]:
@@ -51,7 +50,7 @@ class RandomWalkEmbedding(TransformationBlock, Logger):
 
         return np.where(mask, similarity, 0)
 
-    def topic_graph(self, data: pd.DataFrame) -> nx.Graph:
+    def topic_graph(self, data: pd.DataFrame) -> nx.Graph:  # type: ignore[type-arg]
         """Compute the network graph from the topical similarity.
 
         :param data: A pandas dataframe with "topic_dist" column.
@@ -72,7 +71,7 @@ class RandomWalkEmbedding(TransformationBlock, Logger):
 
         return nx.from_numpy_array(similarity)
 
-    def event_graph(self, data: pd.DataFrame) -> nx.Graph | None:
+    def event_graph(self, data: pd.DataFrame) -> nx.Graph | None:  # type: ignore[type-arg]
         """Compute the network graph from the summaries.
 
         :param data: A pandas dataframe with "summary" column.
@@ -119,11 +118,11 @@ class RandomWalkEmbedding(TransformationBlock, Logger):
 
         return topical_walk + event_walk
 
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Never) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
         """Compute embeddings after random walk.
 
         :param data: The input dataframe.
-        :param transform_args: Additional keyword arguments (UNUSED).
+        :param transform_args: [UNUSED] Additional keyword arguments.
         :return: The transformed data.
         """
         # Compute the date similarity and generate the random walks

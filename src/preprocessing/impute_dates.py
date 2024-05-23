@@ -1,7 +1,7 @@
 """Impute missing dates by filling them with the most similar embedding."""
 
 from dataclasses import dataclass
-from typing import Any
+from typing import Never
 from zoneinfo import ZoneInfo
 
 import numpy as np
@@ -19,11 +19,11 @@ class ImputeDates(TransformationBlock, Logger):
     Replaces NaN values in the date column with one from the closest document embedding.
     """
 
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Never) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
         """Set the missing dates to the fill_date.
 
         :param data: The data to transform.
-        :param transform_args: Additional keyword arguments (UNUSED).
+        :param transform_args: [UNUSED] Additional keyword arguments.
         :return: The transformed data.
         """
         if "date" not in data.columns:

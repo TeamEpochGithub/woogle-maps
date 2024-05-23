@@ -14,7 +14,7 @@ def build_graph_from_adj_list(adj_list: Sequence[Sequence[int]], adj_weights: Se
     :param adj_weights: The weights of the edges.
     :return: The graph as a directed graph.
     """
-    graph = rx.PyDiGraph()  # type: ignore[type-arg, var-annotated]
+    graph = rx.PyDiGraph()  # type: ignore[var-annotated]
     graph.add_nodes_from(range(len(adj_list)))
     for i, (nodes, weights) in enumerate(zip(adj_list, adj_weights, strict=False)):
         for j in range(len(nodes)):

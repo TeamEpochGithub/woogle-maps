@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 from math import exp, log
-from typing import Any
+from typing import Never
 
 import pandas as pd
 import polars as pl
@@ -20,11 +20,11 @@ class FilterRedundantEdges(TransformationBlock, Logger):
     It will return the data with the redundant edges filtered out.
     """
 
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Never) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
         """Filter out redundant edges from the data.
 
         :param data: The data to filter the redundant edges from.
-        :param transform_args: Additional keyword arguments (UNUSED).
+        :param transform_args: [UNUSED] Additional keyword arguments.
         :return: The data with the redundant edges filtered out.
         """
         if "adj_list" not in data.columns or "adj_weights" not in data.columns:

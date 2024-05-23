@@ -99,6 +99,7 @@ def upload_files(contents: list[str], filenames: list[str]) -> tuple[html.Div, N
 
     :param contents: The contents of the uploaded files.
     :param filenames: The names of the uploaded files.
+    :raises PreventUpdate: If no files were uploaded.
     :return: The updates to the page.
     """
     if not contents or not filenames:
