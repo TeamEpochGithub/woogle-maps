@@ -37,7 +37,7 @@ repos:
         args: [ --pytest-test-first ]
       - id: trailing-whitespace
   - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.17
+    rev: v0.18
     hooks:
       - id: validate-pyproject
   - repo: https://github.com/pre-commit/pygrep-hooks
