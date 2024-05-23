@@ -257,6 +257,8 @@ def generate_edges(data: pd.DataFrame) -> list[EdgeElement]:
         story_i = data.query(f"clusters == {i}").iloc[0]["storyline"]
 
         for j in range(len(adj_list)):
+            if adj_weights[j] <= 0:
+                continue
             target_id = f"{adj_list[j]}_1I"
             story_j = data.query(f"clusters == {adj_list[j]}").iloc[0]["storyline"]
             edge_data: EdgeElement = {
