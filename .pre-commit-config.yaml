@@ -37,7 +37,7 @@ repos:
         args: [ --pytest-test-first ]
       - id: trailing-whitespace
   - repo: https://github.com/abravalheri/validate-pyproject
-    rev: v0.16
+    rev: v0.18
     hooks:
       - id: validate-pyproject
   - repo: https://github.com/pre-commit/pygrep-hooks
@@ -71,7 +71,7 @@ repos:
         args: [ --without-hashes, --with=test, --with=docs, --format, requirements.txt, --output, requirements.txt ]
       - id: poetry-install
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.3
+    rev: v0.4.4
     hooks:
       - id: ruff-format
       - id: ruff
