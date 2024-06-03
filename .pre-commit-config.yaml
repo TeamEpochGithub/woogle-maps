@@ -48,7 +48,7 @@ repos:
       - id: python-no-log-warn
       - id: python-use-type-annotations
   - repo: https://github.com/jackdewinter/pymarkdown
-    rev: v0.9.19
+    rev: v0.9.20
     hooks:
       - id: pymarkdown
         args:
@@ -70,7 +70,7 @@ repos:
         args: [ --without-hashes, --with=test, --with=docs, --format, requirements.txt, --output, requirements.txt ]
       - id: poetry-install
   - repo: https://github.com/astral-sh/ruff-pre-commit
-    rev: v0.4.5
+    rev: v0.4.7
     hooks:
       - id: ruff-format
       - id: ruff
