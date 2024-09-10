@@ -1,7 +1,7 @@
 """Generate the embeddings for the data using a RoBERTa model."""
 
 from dataclasses import dataclass, field
-from typing import Any
+from typing import Never
 
 import pandas as pd
 import torch
@@ -29,11 +29,11 @@ class GenerateRobertaEmbedding(TransformationBlock, Logger):
         self._tokenizer = RobertaTokenizer.from_pretrained(self.pretrained_model_name_or_path)
         self._model = RobertaModel.from_pretrained(self.pretrained_model_name_or_path)
 
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # noqa: ARG002, ANN401, DOC103  # type: ignore[misc]
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Never) -> pd.DataFrame:  # noqa: DOC103  # type: ignore[misc]
         """Generate the RoBERTa embeddings for the data.
 
         :param data: The data to transform.
-        :param transform_args: Additional keyword arguments (UNUSED).
+        :param transform_args: [UNUSED] Additional keyword arguments.
         :return: The transformed data.
         """
         docs = data["full_text"].astype(str).tolist()

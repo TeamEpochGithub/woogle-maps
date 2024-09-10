@@ -9,7 +9,7 @@ from collections.abc import Mapping
 from pathlib import Path
 from typing import Any, Final
 
-from pygit2 import Repository  # type: ignore[import-untyped, import-not-found]
+from pygit2 import Repository
 
 REPO_URL: Final[str] = f"https://github.com/TeamEpochGithub/woogle-maps/-/blob/{Repository('.').head.shorthand}/"
 

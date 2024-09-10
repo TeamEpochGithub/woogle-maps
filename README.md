@@ -4,8 +4,9 @@
 [![Python Version](https://img.shields.io/badge/python-3.12-blue.svg)](https://www.python.org/downloads/)
 [![Poetry](https://img.shields.io/endpoint?url=https://python-poetry.org/badge/v0.json)](https://python-poetry.org/)
 [![Ruff](https://img.shields.io/endpoint?url=https://raw.githubusercontent.com/astral-sh/ruff/main/assets/badge/v2.json)](https://github.com/astral-sh/ruff)
+[![Checked with mypy](https://www.mypy-lang.org/static/mypy_badge.svg)](https://mypy-lang.org/)
 [![pre-commit.ci status](https://results.pre-commit.ci/badge/github/TeamEpochGithub/woogle-maps/main.svg)](https://results.pre-commit.ci/latest/github/TeamEpochGithub/woogle-maps/main)
-[![codecov](https://codecov.io/gh/TeamEpochGithub/woogle-maps/graph/badge.svg)](https://codecov.io/gh/TeamEpochGithub/woogle-maps)
+[![codecov](https://codecov.io/gh/TeamEpochGithub/woogle-maps/graph/badge.svg?token=VCIQ3UDFUI)](https://codecov.io/gh/TeamEpochGithub/woogle-maps)
 
 Woogle Maps is a tool for structuring documents in multiple clear storylines, visualizing the relationships between them.
 
@@ -57,6 +58,12 @@ python dashapp/app.py
 ```
 
 This will start the web app on `http://localhost:8060/`.
+
+## Google Colab
+
+Instead of running the code locally, you can also run the code in Google Colab.
+Upload the `Google Colab Preview.ipynb` file to Google Colab and run all cells.
+Once all cells except the last one are done, you can access the app in the link provided at the end of Step 4.
 
 ## Pytest coverage report
 

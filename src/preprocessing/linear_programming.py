@@ -1,7 +1,7 @@
 """Perform the linear programming on the clusters."""
 
 from dataclasses import dataclass
-from typing import Any, override
+from typing import Never, override
 
 import numpy as np
 import numpy.typing as npt
@@ -165,11 +165,11 @@ class LinearProgramming(TransformationBlock, Logger):
         return np.sqrt(event * cluster)
 
     @override
-    def custom_transform(self, data: pd.DataFrame, **transform_args: Any) -> pd.DataFrame:  # type: ignore[misc]  # noqa: DOC103
+    def custom_transform(self, data: pd.DataFrame, **transform_args: Never) -> pd.DataFrame:  # type: ignore[misc]  # noqa: DOC103
         """Create the adjacency list and weights based on the solution.
 
         :param data: the pandas dataframe containing the embeddings.
-        :param transform_args: Additional keyword arguments (UNUSED).
+        :param transform_args: [UNUSED] Additional keyword arguments.
         :return data: the pandas dataframe containing adjacency list and weights.
         """
         if "memberships" not in data.columns or "embed" not in data.columns:
