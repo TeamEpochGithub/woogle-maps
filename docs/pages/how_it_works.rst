@@ -78,11 +78,10 @@ A model trained on the entire Woogle dataset is included in ``tm/`` in this repo
 You can train your own model using the ``notebooks/compute_topical_similarity.py`` notebook.
 This model is used to find the topical distribution of each document based on all the topics it has found during training.
 
-.. warning::
-   Documentation is still WIP:
-
-   - Add more about the LDA model.
-   - Explain why we chose this approach.
+Our approach involves using Latent Dirichlet Allocation (LDA) to find the most common topics in the dataset.
+This method is well-researched and widely used in the field of NLP, and it leverages the fact that documents that are similar in content are likely to be similar in topic as well.
+Therefore, it assigns certain words to certain topics, and uses these probability distributions to find the most suitable topics for each document.
+.. note:: LDA is commonly used for topic modelling, when the topics are not available and need to be inferred from the documents. Otherwise, a form of guided topic modelling is used to extract previously defined topics.
 
 This functionality is implemented in :py:mod:`src.preprocessing.compute_topical_distribution`.
 
@@ -138,11 +137,10 @@ This functionality is implemented in :py:mod:`src.preprocessing.linear_programmi
 Create Events
 +++++++++++++
 
-.. warning::
-   Documentation is still WIP:
-
-   - Add more about the Create Events.
-   - Explain why we chose this approach.
+Events represent the most crucial moments in the generated timelines.
+Therefore, we create events by finding the most important clusters in the timeline.
+Using the previously computed clusters, and the adjacency list for each document, we find the most similar documents within a cluster to produce an event.
+These events are indicated later in the visualization.
 
 
 This functionality is implemented in :py:mod:`src.preprocessing.create_events`.
